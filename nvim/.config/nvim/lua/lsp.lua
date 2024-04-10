@@ -77,6 +77,7 @@ require('mason-lspconfig').setup()
 local servers = {
   clangd = {},
   gopls = {},
+  bashls = {},
   -- pyright = {},
   -- rust_analyzer = {},
   -- tsserver = {},

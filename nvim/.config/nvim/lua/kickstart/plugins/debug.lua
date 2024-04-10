@@ -17,7 +17,7 @@ return {
     -- Installs the debug adapters for you
     'williamboman/mason.nvim',
     'jay-babu/mason-nvim-dap.nvim',
-
+    'microsoft/vscode-cpptools',
     -- Add your own debuggers here
     'leoluz/nvim-dap-go',
   },
@@ -81,6 +81,22 @@ return {
     dap.listeners.after.event_initialized['dapui_config'] = dapui.open
     dap.listeners.before.event_terminated['dapui_config'] = dapui.close
     dap.listeners.before.event_exited['dapui_config'] = dapui.close
+    dap.adapters.cppdbg = {
+      id = 'cppdbg',
+      type = 'executable',
+      command = os.getenv("HOME")..'/extension/debugAdapters/bin/OpenDebugAD7',
+    }
+
+    dap.configurations.cpp = {
+      {
+        name = "QOS",
+        type = "cppdbg",
+        request = "launch",
+        program = '/home/magicgnss/git/correction_service/build/default/QoS/QoS',
+        cwd = '${workspaceFolder}',
+        stopAtEntry = true,
+        args = {"/home/magicgnss/shared_directory/qos/connections.yml","/home/magicgnss/shared_directory/qos/streams.yml","/home/magicgnss/shared_directory/qos/utc_tai.yml","--connect_iono_server", "--connect_phase_bias_server" , "--caster_mountpoint_topic_file" , "/home/magicgnss/shared_directory/qos/topic_mountpoint.yml" ,"--selection_hysteresis_config=/home/magicgnss/shared_directory/qos/rules.yml" }},
+    }
 
     -- Install golang specific config
     require('dap-go').setup()
